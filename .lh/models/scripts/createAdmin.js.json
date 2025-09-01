@@ -1,0 +1,26 @@
+{
+    "sourceFile": "models/scripts/createAdmin.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1751217528464,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1751217543420,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,9 +8,9 @@\n     useUnifiedTopology: true,\r\n   });\r\n \r\n   const email = 'admin@example.com';\r\n-  const password = 'securePassword123';\r\n+  const password = 'ad3';\r\n \r\n   try {\r\n     const existing = await Admin.findOne({ email });\r\n     if (existing) {\r\n"
+                },
+                {
+                    "date": 1751217551631,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,29 @@\n+require('dotenv').config();\r\n+const mongoose = require('mongoose');\r\n+const Admin = require('../models/Admin');\r\n+\r\n+async function run() {\r\n+  await mongoose.connect(process.env.MONGO_URI, {\r\n+    useNewUrlParser: true,\r\n+    useUnifiedTopology: true,\r\n+  });\r\n+\r\n+  const email = 'admin@example.com';\r\n+  const password = 'admin123';\r\n+\r\n+  try {\r\n+    const existing = await Admin.findOne({ email });\r\n+    if (existing) {\r\n+      console.log('Admin already exists');\r\n+    } else {\r\n+      await Admin.create({ email, password });\r\n+      console.log('Admin created');\r\n+    }\r\n+  } catch (err) {\r\n+    console.error('Error creating admin:', err.message);\r\n+  } finally {\r\n+    mongoose.disconnect();\r\n+  }\r\n+}\r\n+\r\n+run();\r\n"
+                }
+            ],
+            "date": 1751217528464,
+            "name": "Commit-0",
+            "content": "require('dotenv').config();\r\nconst mongoose = require('mongoose');\r\nconst Admin = require('../models/Admin');\r\n\r\nasync function run() {\r\n  await mongoose.connect(process.env.MONGO_URI, {\r\n    useNewUrlParser: true,\r\n    useUnifiedTopology: true,\r\n  });\r\n\r\n  const email = 'admin@example.com';\r\n  const password = 'securePassword123';\r\n\r\n  try {\r\n    const existing = await Admin.findOne({ email });\r\n    if (existing) {\r\n      console.log('Admin already exists');\r\n    } else {\r\n      await Admin.create({ email, password });\r\n      console.log('Admin created');\r\n    }\r\n  } catch (err) {\r\n    console.error('Error creating admin:', err.message);\r\n  } finally {\r\n    mongoose.disconnect();\r\n  }\r\n}\r\n\r\nrun();\r\n"
+        }
+    ]
+}

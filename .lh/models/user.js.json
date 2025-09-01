@@ -1,0 +1,42 @@
+{
+    "sourceFile": "models/user.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1752516101365,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1752516112808,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n const mongoose = require('mongoose');\r\n const bcrypt = require('bcryptjs');\r\n \r\n-const AdminSchema = new mongoose.Schema({\r\n+const UserSchema = new mongoose.Schema({\r\n   email: { type: String, required: true, unique: true },\r\n   password: { type: String, required: true },\r\n });\r\n \r\n"
+                },
+                {
+                    "date": 1752516124908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -5,9 +5,9 @@\n   email: { type: String, required: true, unique: true },\r\n   password: { type: String, required: true },\r\n });\r\n \r\n-// Hash password before saving\r\n+/\r\n AdminSchema.pre('save', async function (next) {\r\n   if (!this.isModified('password')) return next();\r\n   this.password = await bcrypt.hash(this.password, 10);\r\n   next();\r\n"
+                },
+                {
+                    "date": 1752516130777,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,21 @@\n+const mongoose = require('mongoose');\r\n+const bcrypt = require('bcryptjs');\r\n+\r\n+const UserSchema = new mongoose.Schema({\r\n+  email: { type: String, required: true, unique: true },\r\n+  password: { type: String, required: true },\r\n+});\r\n+\r\n+\r\n+UserSchema.pre('save', async function (next) {\r\n+  if (!this.isModified('password')) return next();\r\n+  this.password = await bcrypt.hash(this.password, 10);\r\n+  next();\r\n+});\r\n+\r\n+// Optional: add method to compare passwords\r\n+AdminSchema.methods.comparePassword = function (plainPassword) {\r\n+  return bcrypt.compare(plainPassword, this.password);\r\n+};\r\n+\r\n+module.exports = mongoose.model('Admin', AdminSchema);\r\n"
+                },
+                {
+                    "date": 1752516141325,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,22 @@\n+const mongoose = require('mongoose');\r\n+const bcrypt = require('bcryptjs');\r\n+\r\n+const UserSchema = new mongoose.Schema({\r\n+  email: { type: String, required: true, unique: true },\r\n+  password: { type: String, required: true },\r\n+});\r\n+\r\n+\r\n+UserSchema.pre('save', async function (next) {\r\n+  if (!this.isModified('password')) return next();\r\n+  this.password = await bcrypt.hash(this.password, 10);\r\n+  next();\r\n+});\r\n+\r\n+// Optional: add method to compare passwords\r\n+UserSchema.pre('save', async function (next) {\r\n+.methods.comparePassword = function (plainPassword) {\r\n+  return bcrypt.compare(plainPassword, this.password);\r\n+};\r\n+\r\n+module.exports = mongoose.model('Admin', AdminSchema);\r\n"
+                },
+                {
+                    "date": 1752516148095,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -13,52 +13,9 @@\n   next();\r\n });\r\n \r\n // Optional: add method to compare passwords\r\n-UserSchema.pre('save', async function (next) {\r\n-.methods.comparePassword = function (plainPassword) {\r\n+UserSchema.methods.comparePassword = function (plainPassword) {\r\n   return bcrypt.compare(plainPassword, this.password);\r\n };\r\n \r\n module.exports = mongoose.model('Admin', AdminSchema);\r\n-const mongoose = require('mongoose');\r\n-const bcrypt = require('bcryptjs');\r\n-\r\n-const UserSchema = new mongoose.Schema({\r\n-  email: { type: String, required: true, unique: true },\r\n-  password: { type: String, required: true },\r\n-});\r\n-\r\n-\r\n-UserSchema.pre('save', async function (next) {\r\n-  if (!this.isModified('password')) return next();\r\n-  this.password = await bcrypt.hash(this.password, 10);\r\n-  next();\r\n-});\r\n-\r\n-// Optional: add method to compare passwords\r\n-AdminSchema.methods.comparePassword = function (plainPassword) {\r\n-  return bcrypt.compare(plainPassword, this.password);\r\n-};\r\n-\r\n-module.exports = mongoose.model('Admin', AdminSchema);\r\n-const mongoose = require('mongoose');\r\n-const bcrypt = require('bcryptjs');\r\n-\r\n-const UserSchema = new mongoose.Schema({\r\n-  email: { type: String, required: true, unique: true },\r\n-  password: { type: String, required: true },\r\n-});\r\n-\r\n-/\r\n-AdminSchema.pre('save', async function (next) {\r\n-  if (!this.isModified('password')) return next();\r\n-  this.password = await bcrypt.hash(this.password, 10);\r\n-  next();\r\n-});\r\n-\r\n-// Optional: add method to compare passwords\r\n-AdminSchema.methods.comparePassword = function (plainPassword) {\r\n-  return bcrypt.compare(plainPassword, this.password);\r\n-};\r\n-\r\n-module.exports = mongoose.model('Admin', AdminSchema);\r\n"
+                },
+                {
+                    "date": 1752516156612,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -17,5 +17,5 @@\n UserSchema.methods.comparePassword = function (plainPassword) {\r\n   return bcrypt.compare(plainPassword, this.password);\r\n };\r\n \r\n-module.exports = mongoose.model('Admin', AdminSchema);\r\n+module.exports = mongoose.model('User', AdminSchema);\r\n"
+                }
+            ],
+            "date": 1752516101365,
+            "name": "Commit-0",
+            "content": "const mongoose = require('mongoose');\r\nconst bcrypt = require('bcryptjs');\r\n\r\nconst AdminSchema = new mongoose.Schema({\r\n  email: { type: String, required: true, unique: true },\r\n  password: { type: String, required: true },\r\n});\r\n\r\n// Hash password before saving\r\nAdminSchema.pre('save', async function (next) {\r\n  if (!this.isModified('password')) return next();\r\n  this.password = await bcrypt.hash(this.password, 10);\r\n  next();\r\n});\r\n\r\n// Optional: add method to compare passwords\r\nAdminSchema.methods.comparePassword = function (plainPassword) {\r\n  return bcrypt.compare(plainPassword, this.password);\r\n};\r\n\r\nmodule.exports = mongoose.model('Admin', AdminSchema);\r\n"
+        }
+    ]
+}

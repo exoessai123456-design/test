@@ -1,0 +1,42 @@
+{
+    "sourceFile": "scripts/createdBy.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1752522027142,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1752522072393,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n // script.js\r\n require('dotenv').config();\r\n const mongoose = require('mongoose');\r\n-const { Event } = require('./db'); // adjust path if needed\r\n+const { Event } = require('./db'); \r\n \r\n async function run() {\r\n   try {\r\n     await mongoose.connect(process.env.MONGO_URI, {\r\n"
+                },
+                {
+                    "date": 1752522078349,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,27 @@\n+// script.js\r\n+require('dotenv').config();\r\n+const mongoose = require('mongoose');\r\n+const { Event } = require('./');\r\n+\r\n+async function run() {\r\n+  try {\r\n+    await mongoose.connect(process.env.MONGO_URI, {\r\n+      useNewUrlParser: true,\r\n+      useUnifiedTopology: true,\r\n+    });\r\n+\r\n+    const events = await Event.find().lean();\r\n+\r\n+    console.log('All events with createdBy:');\r\n+    events.forEach((e) => {\r\n+      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n+    });\r\n+\r\n+    mongoose.disconnect();\r\n+  } catch (err) {\r\n+    console.error('Error running script:', err);\r\n+    process.exit(1);\r\n+  }\r\n+}\r\n+\r\n+run();\r\n"
+                },
+                {
+                    "date": 1752522084058,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,27 @@\n+// script.js\r\n+require('dotenv').config();\r\n+const mongoose = require('mongoose');\r\n+const { Event } = require('./e');\r\n+\r\n+async function run() {\r\n+  try {\r\n+    await mongoose.connect(process.env.MONGO_URI, {\r\n+      useNewUrlParser: true,\r\n+      useUnifiedTopology: true,\r\n+    });\r\n+\r\n+    const events = await Event.find().lean();\r\n+\r\n+    console.log('All events with createdBy:');\r\n+    events.forEach((e) => {\r\n+      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n+    });\r\n+\r\n+    mongoose.disconnect();\r\n+  } catch (err) {\r\n+    console.error('Error running script:', err);\r\n+    process.exit(1);\r\n+  }\r\n+}\r\n+\r\n+run();\r\n"
+                },
+                {
+                    "date": 1752522123459,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,8 @@\n // script.js\r\n require('dotenv').config();\r\n const mongoose = require('mongoose');\r\n-const { Event } = require('./e');\r\n+const Event = mongoose.model('Event', eventSchema);\r\n \r\n async function run() {\r\n   try {\r\n     await mongoose.connect(process.env.MONGO_URI, {\r\n@@ -24,58 +24,4 @@\n   }\r\n }\r\n \r\n run();\r\n-// script.js\r\n-require('dotenv').config();\r\n-const mongoose = require('mongoose');\r\n-const { Event } = require('./');\r\n-\r\n-async function run() {\r\n-  try {\r\n-    await mongoose.connect(process.env.MONGO_URI, {\r\n-      useNewUrlParser: true,\r\n-      useUnifiedTopology: true,\r\n-    });\r\n-\r\n-    const events = await Event.find().lean();\r\n-\r\n-    console.log('All events with createdBy:');\r\n-    events.forEach((e) => {\r\n-      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n-    });\r\n-\r\n-    mongoose.disconnect();\r\n-  } catch (err) {\r\n-    console.error('Error running script:', err);\r\n-    process.exit(1);\r\n-  }\r\n-}\r\n-\r\n-run();\r\n-// script.js\r\n-require('dotenv').config();\r\n-const mongoose = require('mongoose');\r\n-const { Event } = require('./db'); \r\n-\r\n-async function run() {\r\n-  try {\r\n-    await mongoose.connect(process.env.MONGO_URI, {\r\n-      useNewUrlParser: true,\r\n-      useUnifiedTopology: true,\r\n-    });\r\n-\r\n-    const events = await Event.find().lean();\r\n-\r\n-    console.log('All events with createdBy:');\r\n-    events.forEach((e) => {\r\n-      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n-    });\r\n-\r\n-    mongoose.disconnect();\r\n-  } catch (err) {\r\n-    console.error('Error running script:', err);\r\n-    process.exit(1);\r\n-  }\r\n-}\r\n-\r\n-run();\r\n"
+                },
+                {
+                    "date": 1752522192591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,14 @@\n // script.js\r\n require('dotenv').config();\r\n const mongoose = require('mongoose');\r\n+const eventSchema = new mongoose.Schema({\r\n+  title: String,\r\n+  date: String,\r\n+  name: String,\r\n+  phone: String,\r\n+  type: String,\r\n+});\r\n const Event = mongoose.model('Event', eventSchema);\r\n \r\n async function run() {\r\n   try {\r\n"
+                },
+                {
+                    "date": 1752522269256,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -9,26 +9,5 @@\n   type: String,\r\n });\r\n const Event = mongoose.model('Event', eventSchema);\r\n \r\n-async function run() {\r\n-  try {\r\n-    await mongoose.connect(process.env.MONGO_URI, {\r\n-      useNewUrlParser: true,\r\n-      useUnifiedTopology: true,\r\n-    });\r\n \r\n-    const events = await Event.find().lean();\r\n-\r\n-    console.log('All events with createdBy:');\r\n-    events.forEach((e) => {\r\n-      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n-    });\r\n-\r\n-    mongoose.disconnect();\r\n-  } catch (err) {\r\n-    console.error('Error running script:', err);\r\n-    process.exit(1);\r\n-  }\r\n-}\r\n-\r\n-run();\r\n"
+                }
+            ],
+            "date": 1752522027142,
+            "name": "Commit-0",
+            "content": "// script.js\r\nrequire('dotenv').config();\r\nconst mongoose = require('mongoose');\r\nconst { Event } = require('./db'); // adjust path if needed\r\n\r\nasync function run() {\r\n  try {\r\n    await mongoose.connect(process.env.MONGO_URI, {\r\n      useNewUrlParser: true,\r\n      useUnifiedTopology: true,\r\n    });\r\n\r\n    const events = await Event.find().lean();\r\n\r\n    console.log('All events with createdBy:');\r\n    events.forEach((e) => {\r\n      console.log(`- ${e.date} | ${e.name} | createdBy: ${e.createdBy}`);\r\n    });\r\n\r\n    mongoose.disconnect();\r\n  } catch (err) {\r\n    console.error('Error running script:', err);\r\n    process.exit(1);\r\n  }\r\n}\r\n\r\nrun();\r\n"
+        }
+    ]
+}

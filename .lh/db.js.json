@@ -1,0 +1,50 @@
+{
+    "sourceFile": "db.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 8,
+            "patches": [
+                {
+                    "date": 1751212407734,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1751835128634,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,5 +2,7 @@\n const connectDB = async () => {\r\n   await mongoose.connect(process.env.MONGO_URI);\r\n   console.log('MongoDB connected');\r\n };\r\n+\r\n+\r\n module.exports = connectDB;\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1751835740476,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,8 +1,21 @@\n const mongoose = require('mongoose');\r\n+\r\n const connectDB = async () => {\r\n   await mongoose.connect(process.env.MONGO_URI);\r\n   console.log('MongoDB connected');\r\n };\r\n \r\n+const eventSchema = new mongoose.Schema({\r\n\\ No newline at end of file\n+  title: String,\r\n+  date: String,\r\n+  name: String,\r\n+  phone: String,\r\n+  type: String,\r\n+});\r\n \r\n-module.exports = connectDB;\n+const Event = mongoose.model('Event', eventSchema);\r\n+\r\n+module.exports = {\r\n+  connectDB,\r\n+  Event\r\n+};\r\n"
+                },
+                {
+                    "date": 1751835795162,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,4 +1,5 @@\n+// db.js\r\n const mongoose = require('mongoose');\r\n \r\n const connectDB = async () => {\r\n   await mongoose.connect(process.env.MONGO_URI);\r\n@@ -14,8 +15,5 @@\n });\r\n \r\n const Event = mongoose.model('Event', eventSchema);\r\n \r\n-module.exports = {\r\n-  connectDB,\r\n-  Event\r\n-};\n\\ No newline at end of file\n+module.exports = { connectDB, Event };\r\n"
+                },
+                {
+                    "date": 1751835881062,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,10 +1,17 @@\n-// db.js\r\n const mongoose = require('mongoose');\r\n \r\n const connectDB = async () => {\r\n-  await mongoose.connect(process.env.MONGO_URI);\r\n-  console.log('MongoDB connected');\r\n+  try {\r\n+    await mongoose.connect(process.env.MONGO_URI, {\r\n+      useNewUrlParser: true,\r\n+      useUnifiedTopology: true,\r\n+    });\r\n+    console.log('MongoDB connected');\r\n+  } catch (error) {\r\n+    console.error('MongoDB connection error:', error);\r\n+    process.exit(1);\r\n+  }\r\n };\r\n \r\n const eventSchema = new mongoose.Schema({\r\n   title: String,\r\n"
+                },
+                {
+                    "date": 1751914637661,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,8 +18,13 @@\n   date: String,\r\n   name: String,\r\n   phone: String,\r\n   type: String,\r\n+   status: {\r\n+    type: String,\r\n+    enum: ['confirmed', 'completed', 'cancelled'],\r\n+    default: 'confirmed'\r\n+  }\r\n });\r\n \r\n const Event = mongoose.model('Event', eventSchema);\r\n \r\n"
+                },
+                {
+                    "date": 1751915156650,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n   phone: String,\r\n   type: String,\r\n    status: {\r\n     type: String,\r\n-    enum: ['confirmed', 'completed', 'cancelled'],\r\n+    enum: ['C', 'completed', 'cancelled'],\r\n     default: 'confirmed'\r\n   }\r\n });\r\n \r\n"
+                },
+                {
+                    "date": 1751915163772,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -20,9 +20,9 @@\n   phone: String,\r\n   type: String,\r\n    status: {\r\n     type: String,\r\n-    enum: ['CONFIRMED', 'completed', 'cancelled'],\r\n+    enum: ['CONFIRMED', 'complCOMPLETEDeted', 'cancelled'],\r\n     default: 'confirmed'\r\n   }\r\n });\r\n \r\n"
+                },
+                {
+                    "date": 1751915170493,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,31 @@\n+const mongoose = require('mongoose');\r\n+\r\n+const connectDB = async () => {\r\n+  try {\r\n+    await mongoose.connect(process.env.MONGO_URI, {\r\n+      useNewUrlParser: true,\r\n+      useUnifiedTopology: true,\r\n+    });\r\n+    console.log('MongoDB connected');\r\n+  } catch (error) {\r\n+    console.error('MongoDB connection error:', error);\r\n+    process.exit(1);\r\n+  }\r\n+};\r\n+\r\n+const eventSchema = new mongoose.Schema({\r\n+  title: String,\r\n+  date: String,\r\n+  name: String,\r\n+  phone: String,\r\n+  type: String,\r\n+   status: {\r\n+    type: String,\r\n+    enum: ['CONFIRMED', 'COMPLETED', 'cancelled'],\r\n+    default: 'confirmed'\r\n+  }\r\n+});\r\n+\r\n+const Event = mongoose.model('Event', eventSchema);\r\n+\r\n+module.exports = { connectDB, Event };\r\n"
+                }
+            ],
+            "date": 1751212407734,
+            "name": "Commit-0",
+            "content": "const mongoose = require('mongoose');\r\nconst connectDB = async () => {\r\n  await mongoose.connect(process.env.MONGO_URI);\r\n  console.log('MongoDB connected');\r\n};\r\nmodule.exports = connectDB;"
+        }
+    ]
+}

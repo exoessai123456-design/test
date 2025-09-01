@@ -1,0 +1,38 @@
+{
+    "sourceFile": "utils/reminderScheduler.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 5,
+            "patches": [
+                {
+                    "date": 1753204902386,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1753204914988,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,4 @@\n-// utils/reminderScheduler.js\r\n-\r\n const schedule = require('node-schedule');\r\n const nodemailer = require('nodemailer');\r\n \r\n const transporter = nodemailer.createTransport({\r\n"
+                },
+                {
+                    "date": 1753204923457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -8,11 +8,9 @@\n     pass: process.env.ADMIN_PASS,\r\n   },\r\n });\r\n \r\n-/**\r\n- * Send email reminder\r\n- */\r\n+\r\n function sendReminderEmail(to, title, eventDate) {\r\n   const mailOptions = {\r\n     from: process.env.ADMIN_EMAIL,\r\n     to,\r\n"
+                },
+                {
+                    "date": 1753205103580,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n   if (reminderDate > new Date()) {\r\n     const jobName = `reminder-${event._id}`;\r\n \r\n     schedule.scheduleJob(jobName, reminderDate, () => {\r\n-      sendReminderEmail(event.createdBy.email, event.title, event.date);\r\n+      sendReminderEmail(event.createdBy, event.title, event.date);\r\n     });\r\n \r\n     console.log(`Reminder scheduled for event \"${event.title}\" at ${reminderDate.toLocaleString()}`);\r\n   }\r\n"
+                },
+                {
+                    "date": 1753205113469,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -39,9 +39,9 @@\n   if (reminderDate > new Date()) {\r\n     const jobName = `reminder-${event._id}`;\r\n \r\n     schedule.scheduleJob(jobName, reminderDate, () => {\r\n-      sendReminderEmail(event., event.title, event.date);\r\n+      sendReminderEmail(event.const { scheduleEventReminder } = require('../utils/reminderScheduler');, event.title, event.date);\r\n     });\r\n \r\n     console.log(`Reminder scheduled for event \"${event.title}\" at ${reminderDate.toLocaleString()}`);\r\n   }\r\n"
+                },
+                {
+                    "date": 1753746156054,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -79,9 +79,9 @@\n       try {\r\n         await sendReminderEmail(event.createdBy, event.title, event.date);\r\n \r\n         // Mark job as SENT\r\n-        await fetch(`http://localhost:5000/api/js/${event.id}`, {\r\n+        await fetch(`http://localhost:5000/api/jos/${event.id}`, {\r\n           method: 'PUT',\r\n           headers: {\r\n             'Content-Type': 'application/json',\r\n           },\r\n"
+                }
+            ],
+            "date": 1753204902386,
+            "name": "Commit-0",
+            "content": "// utils/reminderScheduler.js\r\n\r\nconst schedule = require('node-schedule');\r\nconst nodemailer = require('nodemailer');\r\n\r\nconst transporter = nodemailer.createTransport({\r\n  service: 'gmail',\r\n  auth: {\r\n    user: process.env.ADMIN_EMAIL,\r\n    pass: process.env.ADMIN_PASS,\r\n  },\r\n});\r\n\r\n/**\r\n * Send email reminder\r\n */\r\nfunction sendReminderEmail(to, title, eventDate) {\r\n  const mailOptions = {\r\n    from: process.env.ADMIN_EMAIL,\r\n    to,\r\n    subject: `Reminder: \"${title}\" event in 5 minutes`,\r\n    text: `Hello,\\n\\nThis is a reminder for your event: \"${title}\" scheduled at ${new Date(eventDate).toLocaleString()}.\\n\\n- Your Event Dashboard`,\r\n  };\r\n\r\n  transporter.sendMail(mailOptions, (error, info) => {\r\n    if (error) {\r\n      console.error('Failed to send email reminder:', error);\r\n    } else {\r\n      console.log('Reminder email sent:', info.response);\r\n    }\r\n  });\r\n}\r\n\r\n/**\r\n * Schedule a reminder 5 minutes before the event\r\n */\r\nfunction scheduleEventReminder(event) {\r\n  if (event.status !== 'CONFIRMED') return;\r\n\r\n  const eventDate = new Date(event.date);\r\n  const reminderDate = new Date(eventDate.getTime() - 5 * 60000);\r\n\r\n  if (reminderDate > new Date()) {\r\n    const jobName = `reminder-${event._id}`;\r\n\r\n    schedule.scheduleJob(jobName, reminderDate, () => {\r\n      sendReminderEmail(event.createdBy.email, event.title, event.date);\r\n    });\r\n\r\n    console.log(`Reminder scheduled for event \"${event.title}\" at ${reminderDate.toLocaleString()}`);\r\n  }\r\n}\r\n\r\nmodule.exports = {\r\n  scheduleEventReminder,\r\n};\r\n"
+        }
+    ]
+}

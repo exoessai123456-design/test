@@ -1,0 +1,18 @@
+{
+    "sourceFile": "middleware/middleware.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1751212531968,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1751212531968,
+            "name": "Commit-0",
+            "content": "const jwt = require('jsonwebtoken');\r\n\r\nmodule.exports = function (req, res, next) {\r\n  const token = req.header('Authorization')?.split(' ')[1];\r\n  if (!token) return res.status(401).json({ msg: 'No token, auth denied' });\r\n\r\n  try {\r\n    const decoded = jwt.verify(token, process.env.JWT_SECRET);\r\n    req.admin = decoded.admin;\r\n    next();\r\n  } catch {\r\n    res.status(401).json({ msg: 'Token is not valid' });\r\n  }\r\n};\r\n"
+        }
+    ]
+}
