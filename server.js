@@ -10,7 +10,7 @@ const { scheduleEventReminder } = require('./utils/reminderScheduler');
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN }));
+app.use(cors());
 connectDB();
 
 
