@@ -3,11 +3,15 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 0,
+            "activePatchIndex": 1,
             "patches": [
                 {
                     "date": 1751212531968,
                     "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1757006853457,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,14 +1,18 @@\n const jwt = require('jsonwebtoken');\r\n \r\n-module.exports = function (req, res, next) {\r\n-  const token = req.header('Authorization')?.split(' ')[1];\r\n+const authMiddleware = (req, res, next) => {\r\n+  // In serverless, headers are the same, no change needed\r\n+  const token = req.headers['authorization']?.split(' ')[1];\r\n   if (!token) return res.status(401).json({ msg: 'No token, auth denied' });\r\n \r\n   try {\r\n     const decoded = jwt.verify(token, process.env.JWT_SECRET);\r\n     req.admin = decoded.admin;\r\n     next();\r\n-  } catch {\r\n+  } catch (err) {\r\n+    console.error('JWT verification error:', err);\r\n     res.status(401).json({ msg: 'Token is not valid' });\r\n   }\r\n };\r\n+\r\n+module.exports = authMiddleware;\r\n"
                 }
             ],
             "date": 1751212531968,

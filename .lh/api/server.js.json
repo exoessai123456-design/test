@@ -1,0 +1,18 @@
+{
+    "sourceFile": "api/server.js",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1757006674986,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1757006674986,
+            "name": "Commit-0",
+            "content": "require('dotenv').config();\r\nconst express = require('express');\r\nconst { connectDB, Event, Job } = require('../db');\r\nconst authRoutes = require('../routes/auth');\r\nconst cors = require('cors');\r\nconst middlewaree = require('../middleware/middleware'); \r\nconst { scheduleEventReminder } = require('../utils/reminderScheduler');\r\nconst serverless = require('serverless-http');\r\n\r\nconst app = express();\r\napp.use(express.json());\r\napp.use(cors({ origin: 'YOUR_FRONTEND_URL', methods: ['GET','POST','PUT','DELETE'], credentials: true }));\r\n\r\napp.get('/health', (req, res) => res.send('ok'));\r\napp.use('/api/admin', authRoutes);\r\napp.use('/api/events', middlewaree);\r\napp.use('/api/jobs', middlewaree);\r\n\r\n// Example route\r\napp.get('/api/events', async (req, res) => {\r\n  await connectDB();\r\n  const events = await Event.find({ createdBy: req.admin.email, status: { $ne: 'DELETED' } });\r\n  res.json(events);\r\n});\r\n\r\n// other routes... same as before\r\n\r\nmodule.exports = serverless(app); // replace app.listen()\r\n"
+        }
+    ]
+}
